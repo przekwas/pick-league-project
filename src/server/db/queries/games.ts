@@ -1,6 +1,6 @@
 import { knextion as knex } from '../index';
 
-const gamesForWeek = weekid => {
+const gamesForWeek = (weekid: number) => {
 	return knex('games')
 		.select('games.weekid', 'teams.id as teamid', 'teams.name')
 		.join('teams', function() {
@@ -10,5 +10,5 @@ const gamesForWeek = weekid => {
 };
 
 export default {
-    gamesForWeek
-}
+	gamesForWeek
+};
