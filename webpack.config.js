@@ -2,6 +2,7 @@ const path = require('path');
 var nodeExternals = require('webpack-node-externals');
 
 const serverConfig = {
+	name: 'server',
 	mode: process.env.NODE_ENV || 'development',
 	entry: './src/server/server.ts',
 	module: {
@@ -31,6 +32,7 @@ const serverConfig = {
 };
 
 const clientConfig = {
+	name: 'client',
 	mode: process.env.NODE_ENV || 'development',
 	entry: './src/client/index.tsx',
 	devtool: 'inline-source-map',
@@ -55,7 +57,18 @@ const clientConfig = {
 	},
 	output: {
 		filename: 'app.js',
-		path: path.resolve(__dirname, 'public/js')
+		path: path.resolve(__dirname, '/public/js')
+	},
+	devServer: {
+		port: 3000,
+		publicPath: '/js/',
+		contentBase: path.join(__dirname, '/public'),
+		open: true,
+		inline: true,
+		hot: true,
+		proxy: {
+			'/api': 'http://localhost:8080'
+		}
 	}
 };
 
