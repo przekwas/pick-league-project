@@ -30,7 +30,6 @@ const checkIfExpires = (startDate: Date, endDate: Date) => {
 	let start = moment(startDate);
 	let end = moment(endDate);
 	let diffDays = end.diff(start, 'days');
-	console.log(diffDays);
 	if (diffDays < 0) {
 		return true;
 	} else {

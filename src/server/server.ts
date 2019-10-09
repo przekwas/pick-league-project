@@ -7,6 +7,7 @@ import * as cors from 'cors';
 import * as passport from 'passport';
 import routes from './routes';
 import './middleware/localstrategy';
+import './middleware/bearerstrategy';
 
 const app = express();
 

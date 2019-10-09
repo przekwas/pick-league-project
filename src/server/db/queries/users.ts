@@ -8,6 +8,19 @@ const findEmail = (email: string) => {
 		.where({ email });
 };
 
+const findId = (id: number) => {
+	return knex
+		.select()
+		.from<IUserTable>('users')
+		.where({ id });
+};
+
+const insert = (email: string, username: string, hash: string) => {
+	return knex('users').insert({ email, username, hash });
+};
+
 export default {
-	findEmail
+	findEmail,
+	findId,
+	insert
 };
