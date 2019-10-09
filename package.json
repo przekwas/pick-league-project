@@ -6,10 +6,12 @@
 	"scripts": {
 		"server:build": "npx webpack --config-name server -w",
 		"server:watch": "nodemon dist/server.js",
-		"dev": "npm-run-all --parallel server:*",
+		"dev:server": "npm-run-all --parallel server:*",
 		"client:build": "npx webpack --config-name client -w",
 		"client:watch": "webpack-dev-server --config-name client",
-		"start": "npm-run-all --parallel client:*"
+		"dev:client": "npm-run-all --parallel client:*",
+		"build": "npx webpack",
+		"heroku-postbuild": "npm run build"
 	},
 	"keywords": [],
 	"author": "",
