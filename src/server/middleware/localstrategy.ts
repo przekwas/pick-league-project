@@ -2,7 +2,9 @@ import * as passport from 'passport';
 import * as LocalStrategy from 'passport-local';
 import db from '../db';
 import { comparePassword } from '../utils/security/passwords';
-import { IUserTable } from '../utils/types/interfaces';
+
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((user, done) => done(null, user));
 
 passport.use(
 	new LocalStrategy.Strategy(
@@ -11,7 +13,7 @@ passport.use(
 		},
 		async (email, password, done) => {
 			try {
-				let [user]: IUserTable[] = await db.users.findEmail(email);
+				let [user] = await db.users.findEmail(email);
 				if (user && comparePassword(password, user.hash)) {
 					delete user.hash;
 					done(null, user);

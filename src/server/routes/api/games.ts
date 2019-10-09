@@ -1,14 +1,13 @@
 import { Router } from 'express';
 import db from '../../db';
-import { IGameTable, IGame } from '../../utils/types/interfaces';
 
 const router = Router();
 
 router.get('/:weekid', async (req, res) => {
 	const weekid = req.params.weekid;
 	try {
-		const raw: IGameTable[] = await db.games.gamesForWeek(weekid);
-		const gamesForTheWeek: IGame[] = [];
+		const raw = await db.games.gamesForWeek(weekid);
+		const gamesForTheWeek = [];
 		for (let i = 0; i < raw.length; i += 2) {
 			gamesForTheWeek.push({
 				home: raw[i],
