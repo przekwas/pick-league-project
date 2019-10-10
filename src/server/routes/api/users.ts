@@ -3,9 +3,13 @@ import db from '../../db';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
+	const id = req.params.id;
 	try {
-		res.json('Test');
+		const [user] = await db.users.findId(id);
+		delete user.hash;
+		delete user.role;
+		res.json(user);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json("Luke's code sucks, let him know!");

@@ -45,3 +45,9 @@ export interface IWeeksTable {
 	week_end: Date;
 	_created: Date;
 }
+
+export interface IScoreBoardTable {
+	userid: number;
+	total_score: number;
+	score_week_1: number;
+}

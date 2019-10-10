@@ -1,14 +1,14 @@
 import { knextion as knex } from '../index';
-import { ITeamsTable } from '../models/tables';
+import { IWeeksTable } from '../models/tables';
 
 const all = () => {
-	return knex.select().from<ITeamsTable>('teams');
+	return knex.select().from<IWeeksTable>('weeks');
 };
 
 const one = (id: number) => {
 	return knex
 		.select()
-		.from<ITeamsTable>('teams')
+		.from<IWeeksTable>('weeks')
 		.where({ id });
 };
 
