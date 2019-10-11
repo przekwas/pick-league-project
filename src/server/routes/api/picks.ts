@@ -4,7 +4,7 @@ import db from '../../db';
 const router = Router();
 
 router.get('/week/:weekid', async (req, res) => {
-	const weekid = req.params.weekid;
+	const weekid = Number(req.params.weekid);
 	try {
 		const picksForWeek = await db.picks.allForWeek(weekid);
 		res.json(picksForWeek);
@@ -15,7 +15,7 @@ router.get('/week/:weekid', async (req, res) => {
 });
 
 router.get('/user/:userid', async (req, res) => {
-	const userid = req.params.userid;
+	const userid = Number(req.params.userid);
 	try {
 		const picksForUser = await db.picks.allForUser(userid);
 		res.json(picksForUser);

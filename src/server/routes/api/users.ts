@@ -4,7 +4,7 @@ import db from '../../db';
 const router = Router();
 
 router.get('/:id', async (req, res) => {
-	const id = req.params.id;
+	const id = Number(req.params.id);
 	try {
 		const [user] = await db.users.findId(id);
 		delete user.hash;

@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/user/:userid', async (req, res) => {
-	const userid = req.params.userid;
+	const userid = Number(req.params.userid);
 	try {
 		const scoresForUser = await db.scoreboard.getScoreForUser(userid);
 		res.json(scoresForUser);

@@ -4,7 +4,7 @@ import db from '../../db';
 const router = Router();
 
 router.get('/:weekid', async (req, res) => {
-	const weekid = req.params.weekid;
+	const weekid = Number(req.params.weekid);
 	try {
 		const raw = await db.games.gamesForWeek(weekid);
 		const gamesForTheWeek = [];
