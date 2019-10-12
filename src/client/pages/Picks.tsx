@@ -2,7 +2,7 @@ import * as React from 'react';
 
 const Picks: React.FC<PicksProps> = props => {
 	return (
-		<div>
+		<div className="mt-5">
 			<h1>Picks Page</h1>
 		</div>
 	);
