@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Home, Schedule, Picks, Scores, Register, Login, Profile } from './pages';
-import Navbah from './components/Navbah';
+import Navbah from './components/shared/Navbah';
 
 const App: React.FC<AppProps> = props => {
 	return (
