@@ -6,12 +6,10 @@ const Header: React.FC<HeaderProps> = props => {
 		<Container className="pt-5">
 			<Row>
 				<Col md={12}>
-					<Jumbotron fluid className="bg-primary text-white">
+					<Jumbotron fluid className="bg-primary text-white text-center">
 						<Container fluid>
-							<h1 className="display-3">Scott Stapp Memorial Pick'em</h1>
-							<p className="lead">
-								The web's leading NFL Pick League. Focused on the <strong>God</strong> himself, Scott Stapp of Creed. Let's go.
-							</p>
+							<h1 className="display-4">{props.displayText}</h1>
+							<p className="lead">{props.leadText}</p>
 						</Container>
 					</Jumbotron>
 				</Col>
@@ -20,6 +18,9 @@ const Header: React.FC<HeaderProps> = props => {
 	);
 };
 
-interface HeaderProps {}
+interface HeaderProps {
+	displayText?: string;
+	leadText?: string;
+}
 
 export default Header;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardSubtitle, CardText, Button } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, CardTitle, CardText } from 'reactstrap';
 import { FaUserEdit, FaPray, FaMoneyBill } from 'react-icons/fa';
 
 const InstructionCards: React.FC<InstructionCardsProps> = props => {
