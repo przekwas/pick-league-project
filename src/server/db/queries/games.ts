@@ -3,7 +3,7 @@ import { IGameTable, ITeamsTable } from '../models/tables';
 
 const gamesForWeek = (weekid: number) => {
 	return knex
-		.select('games.weekid', 'teams.id as teamid', 'teams.name')
+		.select('games.weekid', 'games.game_date', 'teams.id as teamid', 'teams.name')
 		.from<IGameTable>('games')
 		.join<ITeamsTable>('teams', function() {
 			this.on('teams.id', '=', 'games.home_team').orOn('teams.id', '=', 'games.away_team');

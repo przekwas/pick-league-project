@@ -10,8 +10,21 @@ router.get('/:weekid', async (req, res) => {
 		const gamesForTheWeek = [];
 		for (let i = 0; i < raw.length; i += 2) {
 			gamesForTheWeek.push({
-				home: raw[i],
-				away: raw[i + 1]
+				gameDate: raw[i].game_date,
+				home: {
+					weekid: raw[i].weekid,
+					teamid: raw[i].teamid,
+					name: raw[i].name,
+					selected: false,
+					disabled: false
+				},
+				away: {
+					weekid: raw[i + 1].weekid,
+					teamid: raw[i + 1].teamid,
+					name: raw[i + 1].name,
+					selected: false,
+					disabled: false
+				}
 			});
 		}
 		res.json(gamesForTheWeek);
