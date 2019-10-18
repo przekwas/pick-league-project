@@ -1,51 +1,16 @@
 import * as React from 'react';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 import { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { IWeeklyGames } from '../utils/types/interfaces';
 import Header from '../components/shared/Header';
 import PickButton from '../components/picks/PickButton';
 
-const TEST_DATA: IWeeklyGames[] = [
-	{
-		gameDate: new Date(),
-		home: {
-			selected: false,
-			disabled: false,
-			weekid: 1,
-			teamid: 1,
-			name: 'Green Bay Packers'
-		},
-		away: {
-			selected: false,
-			disabled: false,
-			weekid: 1,
-			teamid: 2,
-			name: 'Buffalo Bills'
-		}
-	},
-	{
-		gameDate: new Date(),
-		home: {
-			selected: false,
-			disabled: false,
-			weekid: 1,
-			teamid: 3,
-			name: 'Miami Dolphins'
-		},
-		away: {
-			selected: false,
-			disabled: false,
-			weekid: 1,
-			teamid: 4,
-			name: 'New England Patriots'
-		}
-	}
-];
-
 const Picks: React.FC<PicksProps> = props => {
 	const [games, setGames] = useState<IWeeklyGames[]>([]);
 	const [pick, setPick] = useState<number>(0);
+	const [pickTeam, setPickTeam] = useState<string>('');
 
 	useEffect(() => {
 		(async () => {
@@ -53,14 +18,14 @@ const Picks: React.FC<PicksProps> = props => {
 				let r = await fetch('/api/games/1');
 				let games: IWeeklyGames[] = await r.json();
 				games.forEach(game => {
-					if(moment(game.gameDate).isBefore()) {
+					if (moment(game.gameDate).isBefore()) {
 						game.home.disabled = true;
 						game.away.disabled = true;
 					}
 				});
 				setGames(games);
 			} catch (error) {
-			console.log(error)	
+				console.log(error);
 			}
 		})();
 	}, []);
@@ -73,9 +38,11 @@ const Picks: React.FC<PicksProps> = props => {
 			game.away.disabled = true;
 			if (game.home.teamid === id) {
 				game.home.selected = true;
+				setPickTeam(game.home.name);
 				game.home.disabled = false;
 			} else if (game.away.teamid === id) {
 				game.away.selected = true;
+				setPickTeam(game.away.name);
 				game.away.disabled = false;
 			}
 		});
@@ -84,18 +51,71 @@ const Picks: React.FC<PicksProps> = props => {
 	};
 
 	const clearPicks = () => {
-		let gamesCopy = [...games];
-		gamesCopy.forEach(game => {
-			game.home.selected = false;
-			game.home.disabled = false;
-			game.away.disabled = false;
-			game.away.selected = false;
-		});
-		setGames(gamesCopy);
+		if (pick === 0) {
+			return;
+		} else {
+			Swal.fire({
+				title: 'Are you sure?',
+				text: "You're about clear your current pick.",
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#7f0fff',
+				cancelButtonColor: '#f2460d',
+				confirmButtonText: 'Yes, clear my pick!'
+			}).then((result: any) => {
+				if (result.value) {
+					let gamesCopy = [...games];
+					gamesCopy.forEach(game => {
+						if (moment(game.gameDate).isBefore()) {
+							game.home.disabled = true;
+							game.away.disabled = true;
+						} else {
+							game.home.selected = false;
+							game.home.disabled = false;
+							game.away.disabled = false;
+							game.away.selected = false;
+						}
+					});
+					setGames(gamesCopy);
+					setPick(0);
+					setPickTeam('');
+					Swal.fire({ title: 'Deleted!', text: 'Your file has been deleted.', type: 'success', confirmButtonColor: '#7f0fff' });
+				}
+			});
+		}
 	};
 
 	const submitPick = () => {
-		console.log(pick);
+		if (pick === 0) {
+			Swal.fire({
+				type: 'error',
+				title: 'Oops...',
+				text: 'Make a pick first dipshit.',
+				footer: 'Stop fucking up my shit.'
+			});
+		} else {
+			Swal.queue([
+				{
+					title: "Make 'dat pick",
+					confirmButtonText: 'Confirm it, bitch.',
+					text: pickTeam,
+					showLoaderOnConfirm: true,
+					preConfirm: () => {
+						return fetch('/api/picks', {
+							method: 'POST'
+						})
+							.then(response => response.json())
+							.then(data => Swal.insertQueueStep(data))
+							.catch(() => {
+								Swal.insertQueueStep({
+									type: 'error',
+									title: 'Something done fucked up.  Let Luke know.'
+								});
+							});
+					}
+				}
+			]);
+		}
 	};
 
 	return (

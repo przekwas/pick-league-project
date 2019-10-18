@@ -27,11 +27,12 @@ router.get('/user/:userid', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {
-		const result = await db.picks.makePickForWeek(req.body.userid, req.body.teamid, req.body.weekid);
-		res.json({
-			result,
-			msg: 'Pick has been made!'
-		});
+		res.json('Pick has been made!')
+		// const result = await db.picks.makePickForWeek(req.body.userid, req.body.teamid, req.body.weekid);
+		// res.json({
+		// 	result,
+		// 	msg: 'Pick has been made!'
+		// });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json("Luke's code sucks, let him know!");
